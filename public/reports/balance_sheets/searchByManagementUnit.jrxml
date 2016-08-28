@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-06-17T22:41:23 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="allPurchasesByManagementUnitPeriod" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="740fe3e4-ce3d-4df0-8c7e-76d6d933eef1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="CEASA Localhost"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="jsp_management_unit_id" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jsp_purchase_date_start" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jsp_purchase_date_start_ptBR" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jsp_purchase_date_end" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jsp_purchase_date_end_ptBR" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT sisconpat_ceasa.accounting_accounts.code AS accounting_account_code,
+	sisconpat_ceasa.accounting_accounts.description AS accounting_account_description,
+	code AS patrimonial_sub_type_code,
+	description AS provider_description,
+	sisconpat_ceasa.balance_sheets.user_id AS provider_description,
+	sisconpat_ceasa.balance_sheets.date_start AS balance_sheet_date_start,
+	sisconpat_ceasa.balance_sheets.date_end,
+	sisconpat_ceasa.balance_sheets.user_id,
+	sisconpat_ceasa.balance_sheets.date_start,
+	sisconpat_ceasa.balance_sheets.date_end,
+	sisconpat_ceasa.balance_sheets.management_unit_id,
+	sisconpat_ceasa.management_units.code,
+	sisconpat_ceasa.management_units.description,
+	sisconpat_ceasa.accounting_accounts.code,
+	sisconpat_ceasa.accounting_accounts.code_short,
+	sisconpat_ceasa.accounting_accounts.description,
+	sisconpat_ceasa.balance_sheets.accounting_account_id,
+	sisconpat_ceasa.balance_sheets.balance_previous,
+	sisconpat_ceasa.balance_sheets.credit,
+	sisconpat_ceasa.balance_sheets.debit,
+	sisconpat_ceasa.balance_sheets.balance_current,
+	sisconpat_ceasa.account_balance_types.code
+FROM sisconpat_ceasa.balance_sheets
+	INNER JOIN sisconpat_ceasa.accounting_accounts ON 
+	 sisconpat_ceasa.balance_sheets.accounting_account_id = sisconpat_ceasa.accounting_accounts.id 
+	INNER JOIN sisconpat_ceasa.management_units ON 
+	 sisconpat_ceasa.balance_sheets.management_unit_id = sisconpat_ceasa.management_units.id 
+	INNER JOIN sisconpat_ceasa.account_balance_types ON 
+	 sisconpat_ceasa.accounting_accounts.account_balance_type_id = sisconpat_ceasa.account_balance_types.id 
+WHERE 
+	  ( 
+	 'NULL' = $P{jsp_management_unit_id}) 
+	 AND ( 
+	 'NULL' >= $P{jsp_purchase_date_start}) 
+	 AND ( 
+	 'NULL' <= $P{jsp_purchase_date_end})]]>
+	</queryString>
+	<field name="management_unit_code" class="java.lang.String"/>
+	<field name="management_unit_description" class="java.lang.String"/>
+	<field name="accounting_account_code" class="java.lang.String"/>
+	<field name="accounting_account_description" class="java.lang.String"/>
+	<field name="patrimonial_code" class="java.lang.String"/>
+	<field name="patrimonial_description" class="java.lang.String"/>
+	<field name="patrimonial_type_code" class="java.lang.String"/>
+	<field name="patrimonial_sub_type_code" class="java.lang.String"/>
+	<field name="provider_description" class="java.lang.String"/>
+	<field name="invoice" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="invoice_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="purchase_value" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<sortField name="management_unit_code"/>
+	<sortField name="accounting_account_code"/>
+	<sortField name="patrimonial_description"/>
+	<variable name="purchase_value1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{purchase_value}]]></variableExpression>
+	</variable>
+	<variable name="purchase_value2" class="java.lang.Double" resetType="Group" resetGroup="AccountingAccountGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{purchase_value}]]></variableExpression>
+	</variable>
+	<variable name="purchase_value3" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{purchase_value}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="193" splitType="Stretch">
+			<image>
+				<reportElement x="-12" y="0" width="64" height="65" uuid="4fb33807-93a2-4aed-9606-71eec5783f84"/>
+				<imageExpression><![CDATA["/home/eduardo/Projetos/Laravel/Ceasa/SisConPat/public/img/ceasa_logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="410" y="2" width="160" height="23" uuid="637c5af6-59b3-4595-a30c-12cd070df62f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Relatório de Aquisições]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="410" y="40" width="160" height="23" uuid="cccd9352-63b7-4256-b3a7-4ffc5e5e61e8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{management_unit_code} + " - " + $F{management_unit_description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="22" width="160" height="20" uuid="c752c375-52e8-4243-a626-2d40cfc96b84"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jsp_purchase_date_start_ptBR} + " a " +  $P{jsp_purchase_date_end_ptBR}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-12" y="70" width="582" height="1" uuid="85d92c8d-44a2-46ca-99e5-42f71705489f"/>
+			</line>
+			<line>
+				<reportElement x="-290" y="183" width="691" height="1" uuid="f15e4a11-5dd3-4159-a1db-83c235096328"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="4" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="-4" y="-1" width="64" height="10" uuid="becaa504-13ad-49d5-84d3-663761a4d0f9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patrimonial_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="-1" width="241" height="10" uuid="19c9608a-2c9c-4b04-bd38-81dce6b6b8bd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patrimonial_description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement positionType="FixRelativeToBottom" x="730" y="-2" width="69" height="10" uuid="4114d7f8-969f-4754-87dd-aa07d9455b18"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{purchase_value}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="669" y="-2" width="58" height="10" printWhenGroupChanges="AccountingAccountGroup" uuid="ae6bf53d-0a8b-4359-a29c-2315c0fea6cd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="605" y="-2" width="60" height="10" uuid="28d65a82-07aa-41f4-9cdf-a58abb117440"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-3" y="11" width="683" height="1" uuid="251979c3-5971-46f9-92fb-d3112faedfc9"/>
+			</line>
+			<textField>
+				<reportElement x="311" y="-2" width="64" height="10" uuid="b71b01c0-5c1c-4a11-b386-072f3758e9ac"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{patrimonial_type_code} + " / " +$F{patrimonial_sub_type_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="377" y="-2" width="226" height="10" uuid="42fe87a1-ac28-41d0-8af0-67d43cc90976"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{provider_description}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="17" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<textField pattern="d/MM/yyyy hh:mm:ss">
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToBandHeight" x="-7" y="3" width="187" height="16" uuid="c15a8334-d2c6-45bd-9cf6-0fd1ace1451b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="327" y="3" width="152" height="12" uuid="d575443c-c461-43e1-b844-acf120200f8e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[SPMTec - SisConPat CEASA - Contrato 018/2016]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="712" y="3" width="62" height="10" uuid="b53f74e8-69cc-4517-b121-8d8a82184fdc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " / "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="774" y="3" width="24" height="10" uuid="c9d220a6-a0e8-4424-b0d3-fb374837266a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="713" y="5" width="84" height="12" printWhenGroupChanges="AccountingAccountGroup" uuid="4176d821-2f6e-425a-ad08-4bf70d8cd174"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{purchase_value3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="642" y="5" width="70" height="12" printWhenGroupChanges="AccountingAccountGroup" uuid="3cb33de1-a3bd-47a1-8f5e-7dda644634f0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral]]></text>
+			</staticText>
+			<line>
+				<reportElement x="642" y="2" width="157" height="1" printWhenGroupChanges="AccountingAccountGroup" uuid="86475855-d1c2-43f8-bb2d-80157d365e77"/>
+			</line>
+			<line>
+				<reportElement x="642" y="19" width="157" height="1" printWhenGroupChanges="AccountingAccountGroup" uuid="e62535ec-2ffe-43cd-a150-ba55bfa39107"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
